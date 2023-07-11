@@ -13,9 +13,10 @@ class ApigetReponse extends ChangeNotifier {
  
   Future<dynamic> fetchData() async {
     log("in fetchdata");
+    dynamic key = await readToken();
     String url = Apiconfiguration.baseurl + Apiconfiguration.dashboardAdmin;
     final headers = {
-      'Authorization': 'Bearer $readToken()', // Add the token to the headers
+      'Authorization': 'Bearer $key', // Add the token to the headers
       'Content-Type': 'application/json',
     };
     http.Response response = await http.get(
@@ -32,6 +33,6 @@ class ApigetReponse extends ChangeNotifier {
     }else{
     log('Request failed with status code ${response.statusCode}');
     }
-  
+  notifyListeners();
   }
 }

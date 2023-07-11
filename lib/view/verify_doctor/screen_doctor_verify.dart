@@ -1,4 +1,8 @@
+import 'dart:developer';
+
+import 'package:admin_side_flutter/controller/doctor_details_get_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../utils/constants/colors.dart';
 import '../../utils/constants/sizedbox.dart';
@@ -11,55 +15,56 @@ class ScreenVerifyDoctor extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: bgcolor,
         title: const TextWidget(
-          text: 'Users',
+          text: 'Verify Doctor',
           size: 30,
           fontWeight: FontWeight.bold,
         ),
         elevation: 0,
       ),
       body: PrimaryWidget(
-        widget: ListView(
-          padding: const EdgeInsets.all(20),
-          children: const [
-           InfoCardWidget(
-              title1: 'Name :',
-              title2: 'Qualification:',
-              
-              actions: 'Verify',
-                image:
-                    'assets/images/360_F_330332917_MO0x1tcYedbGxUM4wgATwyOkU7xY5wEI.jpg',
-                name: 'Childcare',
-                email: 'MBBS',
-                ),
-            height30,
-           InfoCardWidget(
-              title1: 'Name :',
-              title2: 'Qualification:',
-              
-              actions: 'Verify',
-                image:
-                    'assets/images/360_F_330332917_MO0x1tcYedbGxUM4wgATwyOkU7xY5wEI.jpg',
-                name: 'Childcare',
-                email: 'MBBS',
-                ),
-            height30,
-            InfoCardWidget(
-              title1: 'Name :',
-              title2: 'Qualification:',
-              
-              actions: 'Verify',
-                image:
-                    'assets/images/360_F_330332917_MO0x1tcYedbGxUM4wgATwyOkU7xY5wEI.jpg',
-                name: 'Childcare',
-                email: 'MBBS',
-                ),
-          ],
-        ),
+        widget: Consumer<DoctorDetailsProvider>(
+            builder: (context, doctorDetailsProvider, child) {
+          return ListView.separated(
+            padding: const EdgeInsets.all(20),
+            itemBuilder: (context, index) {
+              return InfoCardWidget(
+                title1: 'Depatment :',
+                title2: 'Qualification:',
+                
+                actions: doctorDetailsProvider.doctorDetailsModel!
+                            .doctors[index].verificationStatus ==
+                        true
+                    ? 'Unverify'
+                    : 'Verify',
+                ontap: () async{
+                if(doctorDetailsProvider.doctorDetailsModel!
+                            .doctors[index].verificationStatus ==
+                        true){
+                        await  doctorDetailsProvider.unverifyDoc(index);
+                              doctorDetailsProvider.changeVerification(index);
+                        }else{
+                           await doctorDetailsProvider.verifyDoc(index);
+                           doctorDetailsProvider.changeVerification(index);
+                        }
+                 
+                },
+                image: doctorDetailsProvider
+                    .doctorDetailsModel!.doctors[index].profilePhoto,
+                name: doctorDetailsProvider
+                    .doctorDetailsModel!.doctors[index].departmentName,
+                email: doctorDetailsProvider
+                    .doctorDetailsModel!.doctors[index].qualification,
+              );
+            },
+            separatorBuilder: (context, index) => height20,
+            itemCount: doctorDetailsProvider.doctorDetailsModel!.doctors.length,
+          );
+        }),
       ),
     );
   }

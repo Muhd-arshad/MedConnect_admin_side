@@ -1,10 +1,14 @@
+import 'package:admin_side_flutter/controller/doctor_details_get_controller.dart';
+import 'package:admin_side_flutter/controller/manage_dpt_controller.dart';
+import 'package:admin_side_flutter/controller/user_get_controller.dart';
 import 'package:admin_side_flutter/view/add_departments/screen_add_department.dart';
 import 'package:admin_side_flutter/view/doctors/doctor_screen.dart';
 import 'package:admin_side_flutter/view/loginPage/loginpage.dart';
-import 'package:admin_side_flutter/view/manage_doctor/screen_manage_department.dart';
+import 'package:admin_side_flutter/view/manage_department/screen_manage_department.dart';
 import 'package:admin_side_flutter/view/users/user_screen.dart';
 import 'package:admin_side_flutter/view/verify_doctor/screen_doctor_verify.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'listtilewidget.dart';
 
 class DrawerWidget extends StatelessWidget {
@@ -23,7 +27,9 @@ class DrawerWidget extends StatelessWidget {
           ),
           ListTileWidget(
             title: 'Users',
-            ontap: () {
+            ontap: () async{
+              await Provider.of<UserDetailsProvider>(context,listen: false).getUser();
+              // ignore: use_build_context_synchronously
               Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -35,13 +41,16 @@ class DrawerWidget extends StatelessWidget {
           ),
           ListTileWidget(
             title: 'Docters',
-            ontap: () {
+            ontap: () async {
+              await Provider.of<DoctorDetailsProvider>(context,listen: false).fechDoctorDetails();
+              // ignore: use_build_context_synchronously
               Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) => const ScreenDoctor(),
                 ),
               );
+              
             },
           ),
           ListTileWidget(
@@ -57,7 +66,9 @@ class DrawerWidget extends StatelessWidget {
           ),
           ListTileWidget(
             title: 'Manage department',
-            ontap: () {
+            ontap: () async{
+             await Provider.of<ManagedptProvider>(context,listen: false).mangeDepartment();
+              // ignore: use_build_context_synchronously
               Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -68,13 +79,16 @@ class DrawerWidget extends StatelessWidget {
           ),
           ListTileWidget(
             title: 'Doctor Verification',
-            ontap: () {
+            ontap: () async{
+               await Provider.of<DoctorDetailsProvider>(context,listen: false).fechDoctorDetails();
+              // ignore: use_build_context_synchronously
               Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) => const ScreenVerifyDoctor(),
                 ),
               );
+            
             },
           ),
           ListTileWidget(
@@ -83,7 +97,7 @@ class DrawerWidget extends StatelessWidget {
                Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) =>  LoginScreen(),
+                  builder: (context) => const LoginScreen(),
                 ),
               );
             },

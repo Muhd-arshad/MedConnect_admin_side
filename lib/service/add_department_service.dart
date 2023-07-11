@@ -17,8 +17,11 @@ Future<bool> addDpartment(String departmentname, String description,
     "departmentImage": image
   };
   String url = Apiconfiguration.baseurl + Apiconfiguration.dpartAdd;
-  http.Response response = await http.post(Uri.parse(url),
-      headers: {'Content-Type': 'application/json'}, body: jsonEncode(payload));
+  http.Response response = await http.post(
+    Uri.parse(url),
+    headers: {'Content-Type': 'application/json'},
+    body: jsonEncode(payload),
+  );
 // ignore: use_build_context_synchronously
   httpErrorHandler(
       response: response,

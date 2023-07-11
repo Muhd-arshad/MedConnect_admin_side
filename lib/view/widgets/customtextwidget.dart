@@ -7,11 +7,12 @@ class TextWidget extends StatelessWidget {
   final FontWeight? fontWeight;
   final double? size;
  final Color? colorText;
+ final TextOverflow? overflow;
 
  
 
   const TextWidget({
-    super.key, this.text, this.fontWeight, this.size, this.colorText, 
+    super.key, this.text, this.fontWeight, this.size, this.colorText, this.overflow, 
   });
 
   @override
@@ -21,7 +22,10 @@ class TextWidget extends StatelessWidget {
       style: TextStyle(
           fontSize: size,
           fontWeight: fontWeight,
-          color: colorText),
+          color: colorText,
+          overflow: overflow
+
+          ),
     );
   }
 }
